@@ -1,0 +1,26 @@
+﻿<Window x:Class="WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Приложение транспортной информации" Height="401" Width="783">
+    <Grid>
+        <StackPanel Margin="10">
+            <Button Content="Читать информацию о транспорте" Click="ReadTransportInfo_Click" Margin="0,0,0,10"/>
+
+            <TextBox x:Name="transportInfoTextBox" TextWrapping="Wrap" AcceptsReturn="True" Height="213" IsReadOnly="True" Margin="0,0,0,10"/>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="transportTypeTextBox" Width="120" Margin="0,0,10,0">
+                    <TextBox.ToolTip>
+                        <ToolTip Content="Введите тип транспорта"/>
+                    </TextBox.ToolTip>
+                </TextBox>
+                <TextBox x:Name="ticketClassTextBox" Width="120" Margin="0,0,10,0">
+                    <TextBox.ToolTip>
+                        <ToolTip Content="Введите класс билета"/>
+                    </TextBox.ToolTip>
+                </TextBox>
+                <Button Content="Найти минимальную цену полета" Click="FindMinPriceFlight_Click" Height="30" Width="216"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
