@@ -41,6 +41,5 @@
         /// <param name="index">Индекс для доступа к свойству.</param>
         /// <returns>Значение свойства по указанному индексу.</returns>
         double this[string index] { get; set; }
-
     }
 }

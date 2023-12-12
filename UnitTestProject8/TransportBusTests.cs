@@ -18,7 +18,7 @@ namespace UnitTestProject8
             {
                 bus.DisplayInfo();
             }
-            catch (Exception ex)
+            catch (TransportException ex)
             {
                 Assert.Fail($"Ошибка: {ex.Message}");
             }
@@ -38,7 +38,7 @@ namespace UnitTestProject8
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(TransportBusException))]
         public void Bus_Indexer_InvalidIndex_ShouldThrowArgumentException()
         {
             // Arrange

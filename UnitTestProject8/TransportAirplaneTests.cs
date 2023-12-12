@@ -18,7 +18,7 @@ namespace UnitTestProject8
             {
                 airplane.DisplayInfo();
             }
-            catch (Exception ex)
+            catch (TransportException ex)
             {
                 Assert.Fail($"Ошибка: {ex.Message}");
             }
@@ -38,7 +38,7 @@ namespace UnitTestProject8
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(TransportAirplaneException))]
         public void Airplane_Indexer_InvalidIndex_ShouldThrowArgumentException()
         {
             // Arrange

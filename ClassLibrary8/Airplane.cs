@@ -97,6 +97,23 @@ namespace ClassLibrary8
                         throw new TransportAirplaneException($"Неверный индекс: {index}");
                 }
             }
+            set
+            {
+                switch (index.ToLower())
+                {
+                    case "эконом":
+                        ticketPrices[0] = value;
+                        break;
+                    case "бизнес":
+                        ticketPrices[1] = value;
+                        break;
+                    case "первый":
+                        ticketPrices[2] = value;
+                        break;
+                    default:
+                        throw new TransportAirplaneException($"Неверный индекс: {index}");
+                }
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace UnitTestProject8
             {
                 train.DisplayInfo();
             }
-            catch (Exception ex)
+            catch (TransportException ex)
             {
                 Assert.Fail($"Ошибка: {ex.Message}");
             }
@@ -51,7 +51,7 @@ namespace UnitTestProject8
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(TransportTrainException))]
         public void Train_Indexer_InvalidIndex_ShouldThrowArgumentException()
         {
             // Arrange
