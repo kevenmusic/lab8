@@ -24,6 +24,7 @@
                             Placement="Relative" HorizontalOffset="15" VerticalOffset="10">
                             <StackPanel>
                                 <TextBlock>Введите тип транспорта</TextBlock>
+                                <TextBlock>(Наземный или воздушный)</TextBlock>
                             </StackPanel>
                         </ToolTip>
                     </TextBox.ToolTip>

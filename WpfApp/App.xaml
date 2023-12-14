@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:WpfApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <!-- Определение кистей (Brushes) -->
         <SolidColorBrush x:Key="PrimaryBlueColor" Color="#304FFE"/>
         <SolidColorBrush x:Key="PrimaryTextColor" Color="#fff"/>
         <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#fff"/>
@@ -13,6 +14,7 @@
         
         <!-- Стиль для кнопки -->
         <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}">
+            <!-- Установка значений свойств для кнопки -->
             <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
             <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
             <Setter Property="FontWeight" Value="Medium"/>
@@ -23,6 +25,7 @@
             <Setter Property="Height" Value="34"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <!-- Определение шаблона для отрисовки внешнего вида кнопки -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -41,6 +44,7 @@
                                               RecognizesAccessKey="True"/>
                         </Border>
                         <ControlTemplate.Triggers>
+                            <!-- Триггеры для изменения внешнего вида кнопки при определенных событиях -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="btnBorder" Property="Background" Value="{DynamicResource ButtonMouseOverColor}"/>
                             </Trigger>
@@ -56,6 +60,7 @@
         
         <!-- Стиль для TextBox -->
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+            <!-- Установка значений свойств для TextBox -->
             <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
@@ -64,6 +69,8 @@
             <Setter Property="Cursor" Value="IBeam"/>
             <Setter Property="Foreground" Value="{DynamicResource PrimaryGrayColor}"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            
+            <!-- Определение шаблона для отрисовки внешнего вида TextBox -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
@@ -74,10 +81,12 @@
                                 CornerRadius="5"
                                 SnapsToDevicePixels="True">
                             <Grid Margin="{TemplateBinding Padding}">
+                                <!-- ScrollViewer для поддержки прокрутки текста -->
                                 <ScrollViewer x:Name="PART_ContentHost"
                                               Focusable="False"
                                               HorizontalScrollBarVisibility="Hidden"
                                               VerticalScrollBarVisibility="Hidden"/>
+                                <!-- Label для отображения Watermark (подсказка при пустом поле) -->
                                 <Label x:Name="WaterMarkerLabel"
                                        Content="{TemplateBinding Tag}"
                                        FontWeight="{TemplateBinding FontWeight}"

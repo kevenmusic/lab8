@@ -123,7 +123,7 @@ namespace WpfApp
             transportInfoTextBox.Document = flowDocument;
         }
 
-        public ITransport FindMinPriceFlight(ITransport[] transports, string transportType, string ticketClass)
+        protected ITransport FindMinPriceFlight(ITransport[] transports, string transportType, string ticketClass)
         {
             ITransport minPriceFlight = null;
             double minPrice = double.MaxValue;
@@ -187,11 +187,13 @@ namespace WpfApp
 
         private static ITransport[] RemoveTransportAtIndex(ITransport[] array, int index)
         {
+            // Создание нового массива длиной на один элемент меньше исходного массива
             ITransport[] newArray = new ITransport[array.Length - 1];
             for (int i = 0, j = 0; i < array.Length; i++)
             {
                 if (i != index)
                 {
+                    // Копирование элементов из исходного массива в новый массив
                     newArray[j++] = array[i];
                 }
             }
@@ -212,10 +214,22 @@ namespace WpfApp
             }
 
             string transportType = transportTypeTextBox2.Text;
-            int flightNumber = int.Parse(flightNumberTextBox2.Text);
+            string flightNumberText = flightNumberTextBox2.Text;
+            if (!int.TryParse(flightNumberText, out int flightNumber))
+            {
+                MessageBox.Show($"Неверный формат номера рейса: {flightNumberText}");
+                return;
+            }
+
             string pointOfDeparture = pointOfDepartureTextBox.Text;
             string pointOfDestination = pointOfDestinationTextBox.Text;
-            int freeSeats = int.Parse(freeSeatsTextBox.Text);
+            string freeSeatsText = freeSeatsTextBox.Text;
+
+            if (!int.TryParse(freeSeatsText, out int freeSeats))
+            {
+                MessageBox.Show($"Неверный формат количества свободных мест: {freeSeatsText}");
+                return;
+            }
 
             // Разбиваем входную строку на массив значений типа double
             string[] ticketPricesStringArray = ticketPricesTextBox.Text.Split(',');
@@ -233,6 +247,12 @@ namespace WpfApp
                     MessageBox.Show($"Неверный формат цены билета: {ticketPricesStringArray[i]}");
                     return;
                 }
+            }
+
+            if (!IsValidTicketPricesLength(transportType.ToLowerInvariant(), ticketPrices))
+            {
+                MessageBox.Show($"Неверное количество цен на билет для типа транспорта: {transportType}");
+                return;
             }
 
             ITransport newTransport = null;
@@ -310,6 +330,21 @@ namespace WpfApp
             pointOfDestinationTextBox.Clear();
             ticketPricesTextBox.Clear();
             freeSeatsTextBox.Clear();
+        }
+
+        private bool IsValidTicketPricesLength(string transportType, double[] ticketPrices)
+        {
+            switch (transportType.ToLowerInvariant())
+            {
+                case "самолет":
+                    return ticketPrices.Length == 3;
+                case "поезд":
+                    return ticketPrices.Length == 4;
+                case "автобус":
+                    return ticketPrices.Length == 2;
+                default:
+                    return false;
+            }
         }
     }
 }
