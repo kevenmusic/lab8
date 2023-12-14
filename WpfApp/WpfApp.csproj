@@ -9,7 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="6 %282%29.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ClassLibrary8\ClassLibrary8.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="6 (2).png" />
   </ItemGroup>
 
 </Project>

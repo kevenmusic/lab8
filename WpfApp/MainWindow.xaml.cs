@@ -8,7 +8,7 @@ namespace WpfApp
 {
     public partial class MainWindow : Window
     {
-        private ITransport[]? transports;
+        private ITransport[] transports;
 
         public MainWindow()
         {
@@ -47,7 +47,7 @@ namespace WpfApp
 
         private ITransport[] ReadTransportsFromFile(string filePath)
         {
-            ITransport[]? transportArray = null;
+            ITransport[] transportArray = null;
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
@@ -85,15 +85,14 @@ namespace WpfApp
                                  [double.Parse(parts[4]), double.Parse(parts[5])]);
                             break;
                         default:
-                            throw new TransportException($"Неверный вид транспорта: {parts[0]}");
+                            throw new TransportException($"Неверный вид транспорта", parts[0]);
                     }
-
                     transportArray[i] = transport;
                 }
             }
             catch (TransportException ex)
             {
-                Console.WriteLine($"Ошибка при чтении файла: {ex.Message}");
+                MessageBox.Show($"Ошибка при чтении файла: {ex.Message}. Дополнительная информация: {ex.Value}.");
             }
 
             return transportArray;
@@ -104,7 +103,6 @@ namespace WpfApp
             // Создаем новый документ для RichTextBox
             FlowDocument flowDocument = new FlowDocument();
 
-            // Перебираем все транспортные объекты
             foreach (var transport in transports)
             {
                 string transportInfo = transport.DisplayInfo();
@@ -125,11 +123,9 @@ namespace WpfApp
             transportInfoTextBox.Document = flowDocument;
         }
 
-
-
         public ITransport FindMinPriceFlight(ITransport[] transports, string transportType, string ticketClass)
         {
-            ITransport? minPriceFlight = null;
+            ITransport minPriceFlight = null;
             double minPrice = double.MaxValue;
             foreach (var transport in transports)
             {
@@ -239,17 +235,50 @@ namespace WpfApp
                 }
             }
 
-            ITransport newTransport;
+            ITransport newTransport = null;
             switch (transportType.ToLowerInvariant())
             {
                 case "самолет":
-                    newTransport = new Airplane(flightNumber, freeSeats, pointOfDeparture, pointOfDestination, ticketPrices);
+                    try
+                    {
+                        newTransport = new Airplane(flightNumber, freeSeats, pointOfDeparture, pointOfDestination, ticketPrices);
+                    }
+                    catch (TransportAirplaneException ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}. Дополнительная информация: {ex.Value}.");
+                    }
+                    catch (TransportException ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}. Дополнительная информация: {ex.Value}.");
+                    }
                     break;
                 case "поезд":
-                    newTransport = new Train(flightNumber, [freeSeats], pointOfDeparture, pointOfDestination, ticketPrices);
+                    try
+                    {
+                        newTransport = new Train(flightNumber, [freeSeats], pointOfDeparture, pointOfDestination, ticketPrices);
+                    }
+                    catch (TransportTrainException ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}. Дополнительная информация: {ex.Value}.");
+                    }
+                    catch (TransportException ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}. Дополнительная информация: {ex.Value}.");
+                    }
                     break;
                 case "автобус":
-                    newTransport = new Bus(flightNumber, freeSeats, pointOfDeparture, pointOfDestination, ticketPrices);
+                    try
+                    {
+                        newTransport = new Bus(flightNumber, freeSeats, pointOfDeparture, pointOfDestination, ticketPrices);
+                    }
+                    catch (TransportBusException ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}. Дополнительная информация: {ex.Value}.");
+                    }
+                    catch (TransportException ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}. Дополнительная информация: {ex.Value}.");
+                    }
                     break;
                 default:
                     MessageBox.Show($"Неверный тип транспорта: {transportType}");

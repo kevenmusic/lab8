@@ -11,12 +11,40 @@ namespace ClassLibrary8
         /// <summary>
         /// Получает или устанавливает номер рейса самолета.
         /// </summary>
-        public int FlightNumber { get; set; }
+        private int flightNumber;
+        public int FlightNumber
+        {
+            get
+            {
+                return flightNumber;
+            }
+            set
+            {
+                if (value >= 0)
+                    flightNumber = value;
+                else
+                    throw new TransportException("Номер рейса не может быть отрицательным", value);
+            }
+        }
 
         /// <summary>
         /// Получает или устанавливает количество свободных мест в самолете.
         /// </summary>
-        public int FreeSeats { get; set; }
+        private int freeSeats;
+        public virtual int FreeSeats
+        {
+            get
+            {
+                return freeSeats;
+            }
+            set
+            {
+                if (value >= 0)
+                    freeSeats = value;
+                else
+                    throw new TransportException("Количество свободных мест не может быть отрицательным", value);
+            }
+        }
 
         /// <summary>
         /// Получает или устанавливает точку отправления самолета.
@@ -94,7 +122,7 @@ namespace ClassLibrary8
                     case "первый":
                         return ticketPrices[2];
                     default:
-                        throw new TransportAirplaneException($"Неверный индекс: {index}");
+                        throw new TransportAirplaneException($"Неверный индекс: ",index);
                 }
             }
             set
@@ -111,7 +139,7 @@ namespace ClassLibrary8
                         ticketPrices[2] = value;
                         break;
                     default:
-                        throw new TransportAirplaneException($"Неверный индекс: {index}");
+                        throw new TransportAirplaneException($"Неверный индекс: ",index);
                 }
             }
         }

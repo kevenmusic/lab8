@@ -8,25 +8,10 @@ namespace ClassLibrary8
     /// </summary>
     public class Bus : GroundTransport
     {
-        private int busSeats;
-
         /// <summary>
         /// Получает или устанавливает количество мест в автобусе.
         /// </summary>
-        public int BusSeats
-        {
-            get
-            {
-                return busSeats;
-            }
-            set
-            {
-                if (value >= 0)
-                    busSeats = value;
-                else
-                    throw new TransportBusException("Количество свободных мест не может быть отрицательным");
-            }
-        }
+        public int BusSeats;
 
         /// <summary>
         /// Конструктор класса Bus.
@@ -71,7 +56,7 @@ namespace ClassLibrary8
                     case "жесткий":
                         return ticketPrices[1];
                     default:
-                        throw new TransportBusException($"Неверный индекс: {index}");
+                        throw new TransportBusException($"Неверный индекс: ",index);
                 }
             }
             set
@@ -85,7 +70,7 @@ namespace ClassLibrary8
                         ticketPrices[1] = value;
                         break;
                     default:
-                        throw new TransportBusException($"Неверный индекс: {index}");
+                        throw new TransportBusException($"Неверный индекс: ",index);
                 }
             }
         }

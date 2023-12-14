@@ -73,7 +73,7 @@ namespace ClassLibrary8
                     case "общий":
                         return ticketPrices[3];
                     default:
-                        throw new TransportTrainException($"Неверный индекс: {index}");
+                        throw new TransportTrainException($"Неверный индекс: ",index);
                 }
             }
             set
@@ -93,7 +93,7 @@ namespace ClassLibrary8
                         ticketPrices[3] = value;
                         break;
                     default:
-                        throw new TransportTrainException($"Неверный индекс: {index}");
+                        throw new TransportTrainException($"Неверный индекс: ",index);
                 }
             }
         }

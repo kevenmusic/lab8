@@ -11,12 +11,40 @@ namespace ClassLibrary8
         /// <summary>
         /// Получает или устанавливает номер рейса наземного транспортного средства.
         /// </summary>
-        public int FlightNumber { get; set; }
+        private int flightNumber;
+        public int FlightNumber
+        {
+            get
+            {
+                return flightNumber;
+            }
+            set
+            {
+                if (value >= 0)
+                    flightNumber = value;
+                else
+                    throw new TransportException("Номер рейса не может быть отрицательным", value);
+            }
+        }
 
         /// <summary>
         /// Получает или устанавливает количество свободных мест в наземном транспортном средстве.
-        /// </summary>
-        public virtual int FreeSeats { get; set; }
+        /// </summary>x
+        private int freeSeats;
+        public virtual int FreeSeats
+        {
+            get
+            {
+                return freeSeats;
+            }
+            set
+            {
+                if (value >= 0)
+                    freeSeats = value;
+                else
+                    throw new TransportException("Количество свободных мест не может быть отрицательным", value);
+            }
+        }
 
         /// <summary>
         /// Получает или устанавливает точку отправления наземного транспортного средства.
@@ -78,6 +106,6 @@ namespace ClassLibrary8
         /// </summary>
         /// <param name="index">Тип билета (мягкий или жесткий).</param>
         /// <returns>Цена на билет указанного типа.</returns>
-        public abstract double this[string index] { get; set; }
+        public abstract double this[string index] { get; set;}
     }
 }
