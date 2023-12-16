@@ -15,11 +15,97 @@ namespace WpfApp
             InitializeComponent();
         }
 
+        private void DisplayTransportInfo(ITransport[] transports)
+        {
+            // Создаем новый документ для RichTextBox
+            FlowDocument flowDocument = new FlowDocument();
+
+            foreach (var transport in transports)
+            {
+                string transportInfo = transport.DisplayInfo();
+
+                // Разделяем строку на отдельные строки
+                string[] lines = transportInfo.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // Добавляем пустой параграф для разделения блоков
+                flowDocument.Blocks.Add(new Paragraph(new Run(new string('-', 55))));
+                foreach (var line in lines)
+                {
+                    // Создаем новый параграф с текстом транспорта
+                    Paragraph paragraph = new Paragraph(new Run(line));
+                    paragraph.LineHeight = 5;
+
+                    // Если свободных мест 0, то цвет текста становится красным
+                    if (line.Contains("Количество свободных мест:") && transport.FreeSeats == 0)
+                    {
+                        paragraph.Foreground = Brushes.Red;
+                    }
+                    // Добавляем параграф в документ
+                    flowDocument.Blocks.Add(paragraph);
+                }
+            }
+            flowDocument.Blocks.Add(new Paragraph(new Run(new string('-', 55))));
+
+            // Применяем созданный документ к RichTextBox
+            transportInfoTextBox.Document = flowDocument;
+        }
+
         private void ReadTransportInfo_Click(object sender, RoutedEventArgs e)
         {
             string filePath = "transport_info.txt";
             transports = ReadTransportsFromFile(filePath);
             DisplayTransportInfo(transports);
+        }
+
+        private ITransport[] ReadTransportsFromFile(string filePath)
+        {
+            ITransport[] transportArray = null;
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                transportArray = new ITransport[lines.Length];
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string[] parts = lines[i].Split(' ');
+                    string transportType = parts[0].ToLower();
+                    int flightNumber = int.Parse(parts[1]);
+                    string departurePoint = parts[2];
+                    string destination = parts[3];
+                    
+
+                    double[] ticketPrices;
+                    switch (transportType)
+                    {
+                        case "самолет":
+                            ticketPrices = [double.Parse(parts[4]), double.Parse(parts[5]), double.Parse(parts[6])];
+                            int freeSeats = int.Parse(parts[8]);
+                            ITransport airplane = new Airplane(flightNumber, freeSeats, departurePoint, destination, ticketPrices);
+                            transportArray[i] = airplane;
+                            break;
+                        case "поезд":
+                            ticketPrices = [double.Parse(parts[4]), double.Parse(parts[5]), double.Parse(parts[6]), double.Parse(parts[7])];
+                            int[] wagonSeats = parts.Skip(9).Select(int.Parse).ToArray();
+                            ITransport train = new Train(flightNumber, wagonSeats, departurePoint, destination, ticketPrices);
+                            transportArray[i] = train;
+                            break;
+                        case "автобус":
+                            ticketPrices = [double.Parse(parts[4]), double.Parse(parts[5])];
+                            int busSeats = int.Parse(parts[7]);
+                            ITransport bus = new Bus(flightNumber, busSeats, departurePoint, destination, ticketPrices);
+                            transportArray[i] = bus;
+                            break;
+                        default:
+                            throw new TransportException($"Неверный вид транспорта", transportType);
+                    }
+                }
+            }
+            catch (TransportException ex)
+            {
+                MessageBox.Show($"Ошибка при чтении файла: {ex.Message}. Дополнительная информация: {ex.Value}.");
+            }
+
+            return transportArray;
         }
 
         private void FindMinPriceFlight_Click(object sender, RoutedEventArgs e)
@@ -45,84 +131,6 @@ namespace WpfApp
             }
         }
 
-        private ITransport[] ReadTransportsFromFile(string filePath)
-        {
-            ITransport[] transportArray = null;
-            try
-            {
-                string[] lines = File.ReadAllLines(filePath);
-                transportArray = new ITransport[lines.Length];
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    string[] parts = lines[i].Split(' ');
-
-                    ITransport transport;
-                    switch (parts[0].ToLower())
-                    {
-                        case "самолет":
-                            transport = new Airplane(
-                                int.Parse(parts[1]),
-                                int.Parse(parts[8]),
-                                parts[2],
-                                parts[3],
-                                [double.Parse(parts[4]), double.Parse(parts[5]), double.Parse(parts[6])]);
-                            break;
-                        case "поезд":
-                            transport = new Train(
-                                int.Parse(parts[1]),
-                                parts.Skip(9).Select(int.Parse).ToArray(),
-                                parts[2],
-                                parts[3],
-                                [double.Parse(parts[4]), double.Parse(parts[5]), double.Parse(parts[6]), double.Parse(parts[7])]);
-                            break;
-                        case "автобус":
-                            transport = new Bus(
-                                 int.Parse(parts[1]),
-                                 int.Parse(parts[7]),
-                                 parts[2],
-                                 parts[3],
-                                 [double.Parse(parts[4]), double.Parse(parts[5])]);
-                            break;
-                        default:
-                            throw new TransportException($"Неверный вид транспорта", parts[0]);
-                    }
-                    transportArray[i] = transport;
-                }
-            }
-            catch (TransportException ex)
-            {
-                MessageBox.Show($"Ошибка при чтении файла: {ex.Message}. Дополнительная информация: {ex.Value}.");
-            }
-
-            return transportArray;
-        }
-
-        private void DisplayTransportInfo(ITransport[] transports)
-        {
-            // Создаем новый документ для RichTextBox
-            FlowDocument flowDocument = new FlowDocument();
-
-            foreach (var transport in transports)
-            {
-                string transportInfo = transport.DisplayInfo();
-
-                // Создаем новый параграф с текстом транспорта
-                Paragraph paragraph = new Paragraph(new Run(transportInfo));
-
-                if (transport.FreeSeats == 0)
-                {
-                    paragraph.Foreground = Brushes.Red;
-                }
-
-                // Добавляем параграф в документ
-                flowDocument.Blocks.Add(paragraph);
-            }
-
-            // Применяем созданный документ к RichTextBox
-            transportInfoTextBox.Document = flowDocument;
-        }
-
         protected ITransport FindMinPriceFlight(ITransport[] transports, string transportType, string ticketClass)
         {
             ITransport minPriceFlight = null;
@@ -133,7 +141,7 @@ namespace WpfApp
                 {
                     if (string.Equals(transport.TransportType, transportType, StringComparison.OrdinalIgnoreCase))
                     {
-                        double ticketPrice = transport[ticketClass.ToLowerInvariant()];
+                        double ticketPrice = transport[ticketClass.ToLower()];
                         if (ticketPrice < minPrice)
                         {
                             minPrice = ticketPrice;
@@ -156,15 +164,15 @@ namespace WpfApp
                 return;
             }
 
-            string transportType = transportTypeTextBox.Text.ToLowerInvariant();
-            string ticketClass = ticketClassTextBox.Text.ToLowerInvariant();
+            string transportType = transportTypeTextBox.Text.ToLower();
+            string ticketClass = ticketClassTextBox.Text.ToLower();
 
             int indexToDelete = -1;
             for (int i = 0; i < transports.Length; i++)
             {
                 try
                 {
-                    if (transports[i].TransportType.ToLowerInvariant() == transportType && transports[i][ticketClass.ToLowerInvariant()] != 0)
+                    if (transports[i].TransportType.ToLower() == transportType && transports[i][ticketClass.ToLower()] != 0)
                     {
                         indexToDelete = i;
                         break;
@@ -238,7 +246,7 @@ namespace WpfApp
 
             for (int i = 0; i < ticketPricesStringArray.Length; i++)
             {
-                if (double.TryParse(ticketPricesStringArray[i], out double price))
+                if (double.TryParse(ticketPricesStringArray[i], out double price) && price >= 0)
                 {
                     ticketPrices[i] = price;
                 }
@@ -249,7 +257,7 @@ namespace WpfApp
                 }
             }
 
-            if (!IsValidTicketPricesLength(transportType.ToLowerInvariant(), ticketPrices))
+            if (!IsValidTicketPricesLength(transportType.ToLower(), ticketPrices))
             {
                 MessageBox.Show($"Неверное количество цен на билет для типа транспорта: {transportType}");
                 return;
@@ -334,7 +342,7 @@ namespace WpfApp
 
         private bool IsValidTicketPricesLength(string transportType, double[] ticketPrices)
         {
-            switch (transportType.ToLowerInvariant())
+            switch (transportType.ToLower())
             {
                 case "самолет":
                     return ticketPrices.Length == 3;

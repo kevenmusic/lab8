@@ -10,15 +10,15 @@ namespace ClassLibrary8
     public class Train : GroundTransport
     {
         /// <summary>
-        /// Получает или устанавливает массив, представляющий количество мест в каждом вагоне поезда.
+        /// Получает или устанавливает массив, представляющий количество свободных мест в каждом вагоне поезда.
         /// </summary>
-        public int[] WagonSeats { get; set; }
+        public int[] WagonSeats;
 
         /// <summary>
         /// Конструктор класса Train.
         /// </summary>
         /// <param name="flightNumber">Номер рейса.</param>
-        /// <param name="wagonSeats">Массив, представляющий количество мест в каждом вагоне поезда.</param>
+        /// <param name="wagonSeats">Массив, представляющий количество свободных мест в каждом вагоне поезда.</param>
         /// <param name="departurePoint">Пункт отправления.</param>
         /// <param name="destination">Пункт назначения.</param>
         /// <param name="ticketPrices">Массив цен на билеты различного типа.</param>
@@ -29,7 +29,7 @@ namespace ClassLibrary8
         }
 
         /// <summary>
-        /// Метод для вычисления общего количества мест в поезде на основе количества мест в каждом вагоне.
+        /// Метод для вычисления общего количества свообдных мест в поезде на основе количества мест в каждом вагоне.
         /// </summary>
         /// <param name="wagonSeats">Массив, представляющий количество мест в каждом вагоне поезда.</param>
         /// <returns>Общее количество мест в поезде.</returns>
@@ -96,14 +96,6 @@ namespace ClassLibrary8
                         throw new TransportTrainException($"Неверный индекс: ",index);
                 }
             }
-        }
-
-        /// <summary>
-        /// Получает количество свободных мест в поезде, суммируя количество мест в каждом вагоне.
-        /// </summary>
-        public override int FreeSeats
-        {
-            get { return WagonSeats.Sum(); }
         }
     }
 }

@@ -18,6 +18,7 @@
             <Setter Property="Background" Value="{DynamicResource PrimaryBlueColor}"/>
             <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
             <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="Padding" Value="12 0 12 0"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="MaxHeight" Value="40"/>
@@ -63,7 +64,7 @@
             <!-- Установка значений свойств для TextBox -->
             <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource PrimaryGrayColor}"/>
             <Setter Property="Padding" Value="6 3"/>
             <Setter Property="Height" Value="34"/>
             <Setter Property="Cursor" Value="IBeam"/>
@@ -95,10 +96,67 @@
                                        Padding="{TemplateBinding Padding}"/>
                             </Grid>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Visibility"
+                                        TargetName="WaterMarkerLabel"
+                                        Value="Visible"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource PrimaryBlueColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="BorderBrush"
+                                        Value="{DynamicResource PrimaryBlueColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
         <!-- Стиль для TextBox -->
+        
+        <!-- Стиль для RichTextBox -->
+        <Style x:Key="RichTextBoxStyle" TargetType="{x:Type RichTextBox}">
+            <!-- Установка значений свойств для RichTextBox -->
+            <Setter Property="Background" Value="{DynamicResource PrimaryBackgroundColor}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="6 3"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Cursor" Value="IBeam"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+
+            <!-- Определение шаблона для отрисовки внешнего вида RichTextBox -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RichTextBox}">
+                        <Border x:Name="txtBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="5"
+                        SnapsToDevicePixels="True">
+                            <Grid Margin="{TemplateBinding Padding}">
+                                <!-- ScrollViewer для поддержки прокрутки текста -->
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Стиль для RichTextBox -->
     </Application.Resources>
 </Application>

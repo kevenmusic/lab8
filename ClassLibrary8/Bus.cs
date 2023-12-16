@@ -74,13 +74,5 @@ namespace ClassLibrary8
                 }
             }
         }
-
-        /// <summary>
-        /// Получает количество свободных мест в автобусе.
-        /// </summary>
-        public override int FreeSeats
-        {
-            get { return BusSeats; }
-        }
     }
 }

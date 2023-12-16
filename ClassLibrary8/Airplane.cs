@@ -11,17 +11,17 @@ namespace ClassLibrary8
         /// <summary>
         /// Получает или устанавливает номер рейса самолета.
         /// </summary>
-        private int flightNumber;
+        private int _flightNumber;
         public int FlightNumber
         {
             get
             {
-                return flightNumber;
+                return _flightNumber;
             }
             set
             {
                 if (value >= 0)
-                    flightNumber = value;
+                    _flightNumber = value;
                 else
                     throw new TransportException("Номер рейса не может быть отрицательным", value);
             }
@@ -31,7 +31,7 @@ namespace ClassLibrary8
         /// Получает или устанавливает количество свободных мест в самолете.
         /// </summary>
         private int freeSeats;
-        public virtual int FreeSeats
+        public int FreeSeats
         {
             get
             {
@@ -59,7 +59,7 @@ namespace ClassLibrary8
         /// <summary>
         /// Массив, представляющий цены на билеты различного класса в самолете.
         /// </summary>
-        private double[] ticketPrices;
+        protected double[] ticketPrices;
 
         /// <summary>
         /// Получает тип транспортного средства (в данном случае - "Воздушный").
