@@ -1,5 +1,6 @@
 ﻿using ClassLibrary8;
 using System.IO;
+using System.Security.Cryptography.Xml;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -68,14 +69,13 @@ namespace WpfApp
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string[] parts = lines[i].Split(' ');
-                    string transportType = parts[0].ToLower();
+                    string transportKind = parts[0].ToLower();
                     int flightNumber = int.Parse(parts[1]);
                     string departurePoint = parts[2];
                     string destination = parts[3];
-                    
 
                     double[] ticketPrices;
-                    switch (transportType)
+                    switch (transportKind)
                     {
                         case "самолет":
                             ticketPrices = [double.Parse(parts[4]), double.Parse(parts[5]), double.Parse(parts[6])];
@@ -96,7 +96,7 @@ namespace WpfApp
                             transportArray[i] = bus;
                             break;
                         default:
-                            throw new TransportException($"Неверный вид транспорта", transportType);
+                            throw new TransportException($"Неверный вид транспорта", transportKind);
                     }
                 }
             }
@@ -116,10 +116,11 @@ namespace WpfApp
                 return;
             }
 
-            string transportType = transportTypeTextBox.Text;
-            string ticketClass = ticketClassTextBox.Text;
+            string transportType = transportTypeComboBox.Text.ToLower();
+            string transportKind = transportTypeComboBox.Text.ToLower();
+            string ticketClass = ticketClassTextBox.Text.ToLower();
 
-            ITransport minPriceFlight = FindMinPriceFlight(transports, transportType, ticketClass);
+            ITransport minPriceFlight = FindMinPriceFlight(transports, transportType, transportKind, ticketClass);
 
             if (minPriceFlight != null)
             {
@@ -127,11 +128,11 @@ namespace WpfApp
             }
             else
             {
-                MessageBox.Show($"Для данного типа транспорта не найдено минимальной цены на рейс. {transportType} и класс билета {ticketClass}");
+                MessageBox.Show($"Для данного типа или вида транспорта не найдено минимальной цены на рейс. {transportType} и класс билета {ticketClass}");
             }
         }
 
-        protected ITransport FindMinPriceFlight(ITransport[] transports, string transportType, string ticketClass)
+        protected ITransport FindMinPriceFlight(ITransport[] transports, string transportType, string transportKind, string ticketClass)
         {
             ITransport minPriceFlight = null;
             double minPrice = double.MaxValue;
@@ -139,9 +140,32 @@ namespace WpfApp
             {
                 try
                 {
-                    if (string.Equals(transport.TransportType, transportType, StringComparison.OrdinalIgnoreCase))
+                    double ticketPrice = 0;
+
+                    if (transport.TransportType.ToLower() == transportType || transport.Kind.ToString().ToLower() == transportKind)
                     {
-                        double ticketPrice = transport[ticketClass.ToLower()];
+                        switch (transport.Kind)
+                        {
+                            case TransportKind.Самолёт:
+                                if (transport is Airplane airplane)
+                                {
+                                    ticketPrice = airplane[ticketClass.ToLower()];
+                                }
+                                break;
+                            case TransportKind.Поезд:
+                                if (transport is Train train)
+                                {
+                                    ticketPrice = train[ticketClass.ToLower()];
+                                }
+                                break;
+                            case TransportKind.Автобус:
+                                if (transport is Bus bus)
+                                {
+                                    ticketPrice = bus[ticketClass.ToLower()];
+                                }
+                                break;
+                        }
+
                         if (ticketPrice < minPrice)
                         {
                             minPrice = ticketPrice;
@@ -164,7 +188,8 @@ namespace WpfApp
                 return;
             }
 
-            string transportType = transportTypeTextBox.Text.ToLower();
+            string transportType = transportTypeComboBox.Text.ToLower();
+            string transportKind = transportTypeComboBox.Text.ToLower();
             string ticketClass = ticketClassTextBox.Text.ToLower();
 
             int indexToDelete = -1;
@@ -172,7 +197,30 @@ namespace WpfApp
             {
                 try
                 {
-                    if (transports[i].TransportType.ToLower() == transportType && transports[i][ticketClass.ToLower()] != 0)
+                    double ticketPrice = 0;
+                    switch (transports[i].Kind)
+                    {
+                        case TransportKind.Самолёт:
+                            if (transports[i] is Airplane airplane)
+                            {
+                                ticketPrice = airplane[ticketClass.ToLower()];
+                            }
+                            break;
+                        case TransportKind.Поезд:
+                            if (transports[i] is Train train)
+                            {
+                                ticketPrice = train[ticketClass.ToLower()];
+                            }
+                            break;
+                        case TransportKind.Автобус:
+                            if (transports[i] is Bus bus)
+                            {
+                                ticketPrice = bus[ticketClass.ToLower()];
+                            }
+                            break;
+                    }
+
+                    if ((transports[i].TransportType.ToLower() == transportType && ticketPrice != 0) || (transports[i].Kind.ToString().ToLower() == transportKind && ticketPrice != 0))
                     {
                         indexToDelete = i;
                         break;
@@ -189,7 +237,7 @@ namespace WpfApp
             }
             else
             {
-                MessageBox.Show($"Для данного типа транспорта и класса билета не найдено записи для удаления. {transportType} и класс билета {ticketClass}");
+                MessageBox.Show($"Для данного типа или вида транспорта и класса билета не найдено записи для удаления. {transportType} и класс билета {ticketClass}");
             }
         }
 
@@ -210,7 +258,7 @@ namespace WpfApp
 
         private void AddTransport_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(transportTypeTextBox2.Text) ||
+            if (string.IsNullOrWhiteSpace(transportTypeComboBox2.Text) ||
                 string.IsNullOrWhiteSpace(flightNumberTextBox2.Text) ||
                 string.IsNullOrWhiteSpace(pointOfDepartureTextBox.Text) ||
                 string.IsNullOrWhiteSpace(pointOfDestinationTextBox.Text) ||
@@ -221,7 +269,7 @@ namespace WpfApp
                 return;
             }
 
-            string transportType = transportTypeTextBox2.Text;
+            string transportType = transportTypeComboBox2.Text;
             string flightNumberText = flightNumberTextBox2.Text;
             if (!int.TryParse(flightNumberText, out int flightNumber))
             {
@@ -264,7 +312,7 @@ namespace WpfApp
             }
 
             ITransport newTransport = null;
-            switch (transportType.ToLowerInvariant())
+            switch (transportType.ToLower())
             {
                 case "самолет":
                     try
@@ -332,7 +380,7 @@ namespace WpfApp
 
         private void ClearInputFields()
         {
-            transportTypeTextBox2.Clear();
+            ticketClassTextBox.Clear();
             flightNumberTextBox2.Clear();
             pointOfDepartureTextBox.Clear();
             pointOfDestinationTextBox.Clear();

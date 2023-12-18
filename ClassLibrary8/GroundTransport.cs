@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 
 namespace ClassLibrary8
@@ -47,6 +48,11 @@ namespace ClassLibrary8
         }
 
         /// <summary>
+        /// Получает вид транспорта.
+        /// </summary>
+        public abstract TransportKind Kind { get; }
+
+        /// <summary>
         /// Получает или устанавливает точку отправления наземного транспортного средства.
         /// </summary>
         public string DeparturePoint { get; set; }
@@ -92,7 +98,8 @@ namespace ClassLibrary8
         public virtual string DisplayInfo()
         {
             StringBuilder infoBuilder = new StringBuilder();
-            infoBuilder.AppendLine($"Вид транспорта: {TransportType}");
+            infoBuilder.AppendLine($"Тип транспорта: {TransportType}");
+            infoBuilder.AppendLine($"Вид транспорта: {Kind}");
             infoBuilder.AppendLine($"Номер рейса: {FlightNumber}");
             infoBuilder.AppendLine($"Пункт отправления: {DeparturePoint}");
             infoBuilder.AppendLine($"Пункт назначения: {Destination}");

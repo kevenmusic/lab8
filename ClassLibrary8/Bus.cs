@@ -13,6 +13,15 @@ namespace ClassLibrary8
         /// </summary>
         public int BusSeats;
 
+        private TransportKind _type = TransportKind.Автобус;
+        /// <summary>
+        /// Получает вид транспорта.
+        /// </summary>
+        public override TransportKind Kind
+        {
+            get { return _type; }
+        }
+
         /// <summary>
         /// Конструктор класса Bus.
         /// </summary>

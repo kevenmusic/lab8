@@ -3,7 +3,7 @@
   <Class Name="ClassLibrary8.Airplane">
     <Position X="4.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAUAAACAAAAAAAACAAAIAEAACAgAAAACA=</HashCode>
+      <HashCode>AAAQAAAAAABBUAQACAAQAAAAACAAAAAEAACAgAAAAAA=</HashCode>
       <FileName>Airplane.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -11,7 +11,7 @@
   <Class Name="ClassLibrary8.GroundTransport">
     <Position X="2.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAUAAACAAAAAAAACAAAIAEAACAgAAAACA=</HashCode>
+      <HashCode>AAAQAAAAAABBUAAACAAQAAAAACAAAAAEAACAgAAAAAA=</HashCode>
       <FileName>GroundTransport.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -19,49 +19,49 @@
   <Class Name="ClassLibrary8.Train">
     <Position X="3.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEEAACAAAAAAAAAAAAABAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAABAEEQACAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
       <FileName>Train.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassLibrary8.Bus">
     <Position X="1.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAEABACAAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAABAEARACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Bus.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassLibrary8.TransportException" Collapsed="true">
-    <Position X="8.5" Y="4.75" Width="1.5" />
+    <Position X="7.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>TransportException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassLibrary8.TransportTrainException" Collapsed="true">
-    <Position X="8.5" Y="3.5" Width="1.5" />
+    <Position X="7.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>TransportException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassLibrary8.TransportBusException" Collapsed="true">
-    <Position X="6.75" Y="3.75" Width="1.5" />
+    <Position X="5.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>TransportException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ClassLibrary8.TransportAirplaneException" Collapsed="true">
-    <Position X="6.75" Y="4.75" Width="1.5" />
+    <Position X="5.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>TransportException.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="ClassLibrary8.ITransport">
-    <Position X="6.25" Y="0.5" Width="1.5" />
+    <Position X="0.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAAAAAAAAUAAACAAAAAAAACAAAAAEAACAAAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAAABAUAAACAAAAAAAAAAAAAAEAACAAAAAAAA=</HashCode>
       <FileName>ITransport.cs</FileName>
     </TypeIdentifier>
   </Interface>

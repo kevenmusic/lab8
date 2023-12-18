@@ -8,6 +8,16 @@ namespace ClassLibrary8
     /// </summary>
     public class Airplane : ITransport
     {
+
+        private TransportKind _type = TransportKind.Самолёт;
+        /// <summary>
+        /// Получает вид транспорта.
+        /// </summary>
+        public TransportKind Kind
+        {
+            get { return _type; }
+        }
+
         /// <summary>
         /// Получает или устанавливает номер рейса самолета.
         /// </summary>
@@ -30,17 +40,17 @@ namespace ClassLibrary8
         /// <summary>
         /// Получает или устанавливает количество свободных мест в самолете.
         /// </summary>
-        private int freeSeats;
+        private int _freeSeats;
         public int FreeSeats
         {
             get
             {
-                return freeSeats;
+                return _freeSeats;
             }
             set
             {
                 if (value >= 0)
-                    freeSeats = value;
+                    _freeSeats = value;
                 else
                     throw new TransportException("Количество свободных мест не может быть отрицательным", value);
             }
@@ -92,7 +102,8 @@ namespace ClassLibrary8
         public string DisplayInfo()
         {
             StringBuilder infoBuilder = new StringBuilder();
-            infoBuilder.AppendLine($"Вид транспорта: {TransportType}");
+            infoBuilder.AppendLine($"Тип транспорта: {TransportType}");
+            infoBuilder.AppendLine($"Вид транспорта: {Kind}");
             infoBuilder.AppendLine($"Номер рейса: {FlightNumber}");
             infoBuilder.AppendLine($"Пункт отправления: {DeparturePoint}");
             infoBuilder.AppendLine($"Пункт назначения: {Destination}");

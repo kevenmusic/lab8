@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Приложение транспортной информации" Height="610" Width="783" Icon="/transport_icon2.png">
+        Title="Приложение транспортной информации" Height="610" Width="790" Icon="/transport_icon2.png">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FF12214A"/>
@@ -18,17 +18,13 @@
                 </FlowDocument>
             </RichTextBox>
             <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="transportTypeTextBox" Width="130" Margin="0,0,10,0" Style="{DynamicResource TextBoxStyle}">
-                    <TextBox.ToolTip>
-                        <ToolTip Background="#304FFE" Foreground="White" HasDropShadow="False"
-                            Placement="Relative" HorizontalOffset="15" VerticalOffset="10">
-                            <StackPanel>
-                                <TextBlock>Введите тип транспорта</TextBlock>
-                                <TextBlock>(Наземный или воздушный)</TextBlock>
-                            </StackPanel>
-                        </ToolTip>
-                    </TextBox.ToolTip>
-                </TextBox>
+                <ComboBox x:Name="transportTypeComboBox" Width="130" Margin="0,0,10,0" Style="{DynamicResource ComboBoxStyle}">
+                    <ComboBoxItem Content="Наземный"/>
+                    <ComboBoxItem Content="Воздушный"/>
+                    <ComboBoxItem Content="Автобус"/>
+                    <ComboBoxItem Content="Поезд"/>
+                    <ComboBoxItem Content="Самолёт"/>
+                </ComboBox>
                 <TextBox x:Name="ticketClassTextBox" Width="130" Style="{DynamicResource TextBoxStyle}">
                     <TextBox.ToolTip>
                         <ToolTip Background="#304FFE" Foreground="White" HasDropShadow="False"
@@ -45,16 +41,11 @@
             <StackPanel Height="76" Orientation="Horizontal">
                 <StackPanel Height="57" Width="130">
                     <TextBlock Text="Вид транспорта" Height="22" Width="105" FontWeight="Bold" Foreground="White"/>
-                    <TextBox x:Name="transportTypeTextBox2" TextWrapping="Wrap" Width="130" Style="{DynamicResource TextBoxStyle}">
-                        <TextBox.ToolTip>
-                            <ToolTip Background="#304FFE" Foreground="White" HasDropShadow="False"
-                                    Placement="Relative" HorizontalOffset="15" VerticalOffset="10">
-                                <StackPanel>
-                                    <TextBlock>Введите вид транспорта (автобус , поезд, самолет)</TextBlock>
-                                </StackPanel>
-                            </ToolTip>
-                        </TextBox.ToolTip>
-                    </TextBox>
+                    <ComboBox x:Name="transportTypeComboBox2" Width="130" Style="{DynamicResource ComboBoxStyle}">
+                        <ComboBoxItem Content="Автобус"/>
+                        <ComboBoxItem Content="Поезд"/>
+                        <ComboBoxItem Content="Самолёт"/>
+                    </ComboBox>
                 </StackPanel>
                 <StackPanel Height="57" Width="130" Margin="5">
                     <TextBlock Text="Номер рейса" Height="22" Width="77" Foreground="White" FontWeight="Bold"/>
@@ -71,15 +62,15 @@
             </StackPanel>
             <StackPanel Height="92" Orientation="Horizontal">
                 <StackPanel Height="73" Width="130">
-                    <TextBlock Text="Стоимость билетов" Height="37" Width="124" FontWeight="Bold" Foreground="White"/>
-                    <TextBox x:Name="ticketPricesTextBox" TextWrapping="Wrap" Width="130" Style="{DynamicResource TextBoxStyle}">
+                    <TextBlock Text="Стоимость билетов" Height="19" Width="115" FontWeight="Bold" Foreground="White" Margin="0,18,0,0"/>
+                    <TextBox x:Name="ticketPricesTextBox" Width="130" Style="{DynamicResource TextBoxStyle}" Margin="0,0,0,0">
                         <TextBox.ToolTip>
                             <ToolTip Background="#304FFE" Foreground="White" HasDropShadow="False"
                                 Placement="Relative" HorizontalOffset="15" VerticalOffset="10">
                                 <StackPanel>
-                                    <TextBlock>Поезд: [люкс],[купейный],[плацкарт],[общий]</TextBlock>
-                                    <TextBlock>Автобус: [мягкий],[жесткий]</TextBlock>
-                                    <TextBlock>Самолёт: [эконом] [бизнес] [первый]</TextBlock>
+                                    <TextBlock><Run Text="Поезд: [люкс],[купейный],[плацкарт],[общий]"/></TextBlock>
+                                    <TextBlock><Run Text="Автобус: [мягкий],[жесткий]"/></TextBlock>
+                                    <TextBlock><Run Text="Самолёт: [эконом] [бизнес] [первый]"/></TextBlock>
                                 </StackPanel>
                             </ToolTip>
                         </TextBox.ToolTip>

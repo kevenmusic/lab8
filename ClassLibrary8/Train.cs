@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace ClassLibrary8
@@ -13,6 +14,15 @@ namespace ClassLibrary8
         /// Получает или устанавливает массив, представляющий количество свободных мест в каждом вагоне поезда.
         /// </summary>
         public int[] WagonSeats;
+
+        private TransportKind _type = TransportKind.Поезд;
+        /// <summary>
+        /// Получает вид транспорта.
+        /// </summary>
+        public override TransportKind Kind
+        {
+            get { return _type; }
+        }
 
         /// <summary>
         /// Конструктор класса Train.
